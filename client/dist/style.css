@@ -5,6 +5,9 @@ body {
 .navbar {
   background-color: #333;
   overflow: hidden;
+  width: 200px;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
 }
 
 .navbar span {
@@ -14,4 +17,19 @@ body {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+}
+
+ul.movielist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+}
+
+.movielist li {
+  display:block;
+  padding: 8px 16px;
+  border-style: solid;
+  border-width: 0px 1px 1px 1px;
 }
