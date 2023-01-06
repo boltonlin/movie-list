@@ -1,7 +1,16 @@
 import React from 'react';
 
-const MovieEntry = ({movie}) => (
-  <li className={movie.className || ''}>{movie.title}</li>
-)
+//TODO: add toggle button to indicate watched/unwatched
+const MovieEntry = ({title}) => {
+  return (
+    <li>
+      {title}
+      {/* <button className="watch-button"
+        onClick={()=>{handleToggle(movie)}}>
+          {movie.watched ? 'Watched' : 'Not Watched'}
+      </button> */}
+    </li>
+  );
 
+}
 export default MovieEntry;

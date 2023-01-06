@@ -1,74 +1,75 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar.jsx';
-import AddMovie from './AddMovie.jsx';
+import AddMovieForm from './AddMovieForm.jsx';
 import SearchBar from './SearchBar.jsx';
 import MovieList from './MovieList.jsx';
+import Tab from './Tabs.jsx';
 
-const { useState, useEffect } = React;
+const App = ({movies}) => {
 
-const testMovies = [
-  {title: 'Mean Girls'},
-  {title: 'Hackers'},
-  {title: 'The Grey'},
-  {title: 'Sunshine'},
-  {title: 'Ex Machina'},
-];
+  const [filteredMovies, setFilteredMovies] = useState(movies.get());
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchFlag, setSearchFlag] = useState(false);
+  const [addTitle, setAddTitle] = useState('');
+  const [activeTab, setActiveTab] = useState('To Watch');
 
-const App = (props) => {
-
-  const [movies, setMovies] = useState([]);
-  const [search, setSearch] = useState('');
-  const [insertTitle, setInsertTitle] = useState(null);
-
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value === '' ?
-      '' : RegExp(event.target.value, 'i'));
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setFilteredMovies(
+      movies.filter( (movie) =>
+      movie.title.toLowerCase().includes(searchTerm.toLowerCase())));
+    setSearchFlag(true);
+    setSearchTerm('');
   }
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    let results = [];
-    let found = 0;
-    movies.forEach(movie => {
-      let copy = Object.create(movie);
-      if (!!search && movie.title.match(search)) {
-        Object.assign(copy, {className: 'highlight'});
-        found++;
-      } else
-        Object.assign(copy, {className: ''});
-      results.push(copy);
-    });
-    if (!found && !!search) {
-      alert('No movie by that name found.');
-    }
-    setMovies(results);
+  const handleAddSubmit = (e) => {
+    e.preventDefault();
+    if (!!addTitle) {
+      if (!movies.add(addTitle))
+        alert('Cannot add duplicates');
+    } else
+      alert('Invalid input');
+    setAddTitle('');
+    setFilteredMovies(movies.get());
   }
 
-  const handleAddChange = (event) => {
-    setInsertTitle(event.target.value || null);
-  }
+  useEffect(() => {
+    if (filteredMovies.length < 1 && searchFlag)
+      alert('No movie by that name found');
+    setSearchFlag(false);
+  }, [filteredMovies, searchFlag]);
 
-  const handleAddSubmit = (event) => {
-    event.preventDefault();
-    if (!!insertTitle) {
-      setMovies([...movies, {title: insertTitle}]);
-      event.target.reset();
-      setInsertTitle(null);
-    } else alert('Invalid input.');
-  }
+  useEffect(() => {
+    //setfilteredmovies to only include watched/unwatched
+  }, [activeTab]);
 
   return (
+    <>
+    < NavBar />
+    < AddMovieForm
+      addTitle={addTitle}
+      onAddChange={setAddTitle}
+      onAddSubmit={handleAddSubmit} />
+    < SearchBar
+      searchTerm={searchTerm}
+      onSearchTermChange={setSearchTerm}
+      onSearchSubmit={handleSearchSubmit} />
+    { filteredMovies.length ?
       <>
-      < NavBar />
-      < AddMovie
-        handleChange={handleAddChange}
-        handleSubmit={handleAddSubmit} />
-      < SearchBar
-        handleChange={handleSearchChange}
-        handleSubmit={handleSearchSubmit} />
-      { movies.length ?
-        <MovieList movies={movies} /> : <></> }
-      </>
+      <div className="tabs">
+        < Tab
+          text="Watched"
+          isActive={activeTab === 'Watched'}
+          handleClick={setActiveTab} />
+        < Tab
+          text="To Watch"
+          isActive={activeTab === 'To Watch'}
+          handleClick={setActiveTab} />
+      </div>
+      < MovieList
+        movies={filteredMovies} />
+      </> : <></> }
+    </>
   );
 }
 

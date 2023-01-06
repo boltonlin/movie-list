@@ -1,12 +1,18 @@
 import React from 'react';
 
-const SearchBar = ({handleChange, handleSubmit}) => (
+const SearchBar = ({
+  searchTerm,
+  onSearchTermChange,
+  onSearchSubmit
+}) => (
   <form
-    className="searchbar"
-    onSubmit={handleSubmit}>
-    <input id="search-text"
-      placeholder="Search..."
-      onChange={handleChange}></input>
+    className="search-bar"
+    onSubmit={onSearchSubmit}>
+    <input
+      id="search-text"
+      type="text"
+      value={searchTerm} placeholder="Search..."
+      onChange={(e) => onSearchTermChange(e.target.value)} />
     <button type="submit" id="search-button">🔍</button>
   </form>
 )
