@@ -33,6 +33,12 @@ const App = ({movies}) => {
     setFilteredMovies(movies.get());
   }
 
+  const handleWatchToggle = (title) => {
+    movies.extend(title, movies.get(title).watched ? {watched: false} : {watched: true});
+    setFilteredMovies(
+      movies.filter( (movie) => activeTab === 'To Watch' ? !movie.watched : movie.watched));
+  }
+
   useEffect(() => {
     if (filteredMovies.length < 1 && searchFlag)
       alert('No movie by that name found');
@@ -41,6 +47,8 @@ const App = ({movies}) => {
 
   useEffect(() => {
     //setfilteredmovies to only include watched/unwatched
+    setFilteredMovies(
+      movies.filter( (movie) => activeTab === 'To Watch' ? !movie.watched : movie.watched));
   }, [activeTab]);
 
   return (
@@ -54,7 +62,6 @@ const App = ({movies}) => {
       searchTerm={searchTerm}
       onSearchTermChange={setSearchTerm}
       onSearchSubmit={handleSearchSubmit} />
-    { filteredMovies.length ?
       <>
       <div className="tabs">
         < Tab
@@ -66,9 +73,12 @@ const App = ({movies}) => {
           isActive={activeTab === 'To Watch'}
           handleClick={setActiveTab} />
       </div>
-      < MovieList
-        movies={filteredMovies} />
-      </> : <></> }
+      { filteredMovies.length ?
+        < MovieList
+          movies={filteredMovies}
+          onToggle={handleWatchToggle} />
+        : <></> }
+      </>
     </>
   );
 }

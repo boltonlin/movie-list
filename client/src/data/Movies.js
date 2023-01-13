@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 const Movies = {
 
   _list: [],
@@ -14,8 +16,23 @@ const Movies = {
     else return false;
   },
 
-  get: function () {
-    return Movies._list;
+  get: function (title) {
+    if (!title) {
+      return Movies._list;
+    } else {
+      for (const movie of Movies._list) {
+        if (movie.title === title) {
+          return movie;
+        }
+      }
+      console.log(`Couldn't find movie with that title`);
+      return undefined;
+    }
+  },
+
+  extend: function (targetTitle, obj) {
+    _.extend(Movies.get(targetTitle), obj);
+    console.log(Movies.get(targetTitle));
   },
 
   length: function () {

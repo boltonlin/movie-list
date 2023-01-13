@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //TODO: add toggle button to indicate watched/unwatched
-const MovieEntry = ({title}) => {
+const MovieEntry = ({
+  title,
+  watched,
+  onToggle
+}) => {
+
   return (
     <li>
       {title}
-      {/* <button className="watch-button"
-        onClick={()=>{handleToggle(movie)}}>
-          {movie.watched ? 'Watched' : 'Not Watched'}
-      </button> */}
+      <button
+        className={'watch-button' +
+          (watched ?  ' watched': ' not-watched')}
+        onClick={() => {onToggle(title)}}>
+          {watched ? 'Watched' : 'Not Watched'}
+      </button>
     </li>
   );
 

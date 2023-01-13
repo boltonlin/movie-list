@@ -59,3 +59,21 @@ button {
 .active {
   background-color: rgb(156, 255, 171)
 }
+
+button.watch-button {
+  float: right;
+  display: inline-flex;
+  border-radius: 3px;
+  border-width: 1px;
+  padding: 1px 3px;
+}
+
+button.watch-button.not-watched {
+  background-color: darkgray;
+  color: white;
+}
+
+button.watch-button.watched {
+  background-color: lightgreen;
+  color: white;
+}
