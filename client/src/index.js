@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
-import Movies from './data/Movies.js';
+import MoviesDb from './data/MoviesDb.js';
 
-ReactDOM.render(<App movies={Movies} />, document.getElementById('app'));
+ReactDOM.render(<App movies={MoviesDb} />, document.getElementById('app'));

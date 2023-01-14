@@ -1,11 +1,12 @@
 body {
   font-family: sans-serif, arial;
+  float: center;
 }
 
 .navbar {
   background-color: #333;
   overflow: hidden;
-  width: 100%;
+  width: 500px;
   border-style: solid;
   border-width: 0px 0px 1px 0px;
 }
@@ -23,7 +24,7 @@ ul.movielist {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: 500px;
   background-color: #f1f1f1;
   border-style: solid;
   border-width: 1px;
@@ -42,7 +43,7 @@ ul.movielist {
 
 form {
   display: flex;
-  max-width: 50%;
+  max-width: 500px;
   margin: 10px;
   justify-content: space-evenly;
 }
