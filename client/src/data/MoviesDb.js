@@ -23,7 +23,6 @@ const MoviesDb = {
   updateWatched: function (targetTitle) {
     return Parse.getOne(targetTitle)
       .then((movie) => {
-        console.log(movie);
         if (movie.watched) {
           return Parse.update(targetTitle, {watched: 0});
         } else {

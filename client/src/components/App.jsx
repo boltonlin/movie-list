@@ -5,7 +5,10 @@ import SearchBar from './SearchBar.jsx';
 import MovieList from './MovieList.jsx';
 import Tab from './Tabs.jsx';
 
-const App = ({movies}) => {
+const App = ({
+  movies,
+  tmdb
+}) => {
 
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -89,7 +92,8 @@ const App = ({movies}) => {
       { filteredMovies.length ?
         < MovieList
           movies={filteredMovies}
-          onToggle={handleWatchToggle} />
+          onToggle={handleWatchToggle}
+          tmdb={tmdb} />
         : <></> }
       </>
     </>

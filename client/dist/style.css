@@ -78,3 +78,15 @@ button.watch-button.watched {
   background-color: lightgreen;
   color: white;
 }
+
+.movie-desc {
+  padding: 10px 18px;
+  background-color: white;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  font-size: small;
+  display: inline-flex;
+  align-items: center;
+}
