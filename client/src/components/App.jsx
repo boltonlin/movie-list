@@ -16,13 +16,28 @@ const App = ({
   const [addTitle, setAddTitle] = useState('');
   const [activeTab, setActiveTab] = useState('To Watch');
 
+  const basedOffTab = (movie) => {
+    return activeTab === 'To Watch' ? !movie.watched : movie.watched;
+  }
+
+  const setFilteredMoviesBasedOffTab = () => {
+    return movies.filter(basedOffTab)
+      .then(setFilteredMovies);
+  }
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    movies.filter( (movie) =>
-      movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ).then(setFilteredMovies);
-    setSearchFlag(true);
-    setSearchTerm('');
+    if (searchTerm.length) {
+      movies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        .then(setFilteredMovies)
+        .then(() => {
+          setSearchFlag(true);
+          setSearchTerm('');
+        });
+    } else {
+      setFilteredMoviesBasedOffTab();
+    }
   }
 
   const handleAddSubmit = (e) => {
@@ -30,12 +45,8 @@ const App = ({
     if (!!addTitle) {
       movies.add(addTitle)
         .catch((err) => alert('Cannot add duplicates'))
-        .then(() => {
-          setAddTitle('');
-        }).then(() => {
-          return movies.filter((movie) =>
-          activeTab === 'To Watch' ? !movie.watched : movie.watched)
-        }).then(setFilteredMovies);
+        .then(() => setAddTitle(''))
+        .then(setFilteredMoviesBasedOffTab);
     } else {
       alert('Invalid input.');
     }
@@ -43,10 +54,7 @@ const App = ({
 
   const handleWatchToggle = (title) => {
     movies.updateWatched(title)
-      .then(() => {
-        return movies.filter((movie) =>
-        activeTab === 'To Watch' ? !movie.watched : movie.watched)
-      }).then(setFilteredMovies);
+      .then(setFilteredMoviesBasedOffTab)
   }
 
   useEffect(() => {
@@ -56,15 +64,11 @@ const App = ({
   }, [filteredMovies, searchFlag]);
 
   useEffect(() => {
-    movies.filter((movie) =>
-      activeTab === 'To Watch' ? !movie.watched : movie.watched
-    ).then(setFilteredMovies);
+    setFilteredMoviesBasedOffTab();
   }, [activeTab]);
 
   useEffect(() => {
-    movies.filter((movie) =>
-    activeTab === 'To Watch' ? !movie.watched : movie.watched
-    ).then(setFilteredMovies);
+    setFilteredMoviesBasedOffTab();
   }, []);
 
   return (
@@ -94,7 +98,7 @@ const App = ({
           movies={filteredMovies}
           onToggle={handleWatchToggle}
           tmdb={tmdb} />
-        : <></> }
+        : null }
       </>
     </>
   );

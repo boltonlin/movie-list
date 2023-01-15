@@ -11,14 +11,18 @@ const MovieEntry = ({
   const [showDescription, setShowDescription] = useState(false);
   const [findings, setFindings] = useState({});
 
-  const handleClick = () => {
-    setShowDescription(!showDescription);
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (e.target.className.includes('movie-entry')) {
+      setShowDescription(!showDescription);
+    } else if (e.target.className.includes('watch-button')) {
+      onToggle(title);
+    }
   }
 
   useEffect(() => {
-    tmdb.search(title)
+    tmdb.search(`${title}`)
     .then((results) => {
-      console.log(results.results[0]);
       setFindings(results.results[0]);
     });
   }, []);
@@ -27,21 +31,24 @@ const MovieEntry = ({
     <>
     <li
       className="movie-entry"
-      onClick={handleClick}>
+      onClick={(e) => handleClick(e)}>
       {title}
       <button
         className={'watch-button' +
-          (watched ?  ' watched': ' not-watched')}
-        onClick={() => {onToggle(title)}}>
+          (watched ?  ' watched': ' not-watched')}>
           {watched ? 'Watched' : 'Not Watched'}
       </button>
     </li>
-    {showDescription ?
+    {showDescription && findings ?
       <div className="movie-desc">
         <div className="text-section">
-          <p>Released: {findings.release_date}</p>
-          <p>{findings.overview}</p>
-          <p>User Score: {findings.vote_average * 10}%</p>
+          {findings ?
+            <>
+            <p>Released: {findings.release_date}</p>
+            <p>{findings.overview}</p>
+            <p>User Score: {findings.vote_average * 10}%</p>
+            </>
+          : <p>No description found.</p>}
         </div>
         <img
         src={`https://image.tmdb.org/t/p/w200${findings.poster_path}`}></img>
