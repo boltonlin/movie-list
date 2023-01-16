@@ -23,7 +23,7 @@ const Parse = {
   },
 
   update: function (targetTitle, changes) {
-    return axios.put(Parse.server, {
+    return axios.patch(Parse.server, {
       'target': targetTitle,
       'changes': changes
     });
