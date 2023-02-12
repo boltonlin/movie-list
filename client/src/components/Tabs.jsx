@@ -1,13 +1,19 @@
 import React from 'react';
 
-const Tab = ({
+function Tab({
   text,
   isActive,
-  handleClick
-}) => (
-  <button
-    className={'tablinks' + (isActive ? ' active' : '')}
-    onClick={() => handleClick(text)}>{text}</button>
-)
+  handleClick,
+}) {
+  return (
+    <button
+      className={`tablinks${isActive ? ' active' : ''}`}
+      onClick={() => handleClick(text)}
+      type="button"
+    >
+      {text}
+    </button>
+  );
+}
 
 export default Tab;

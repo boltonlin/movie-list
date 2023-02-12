@@ -1,21 +1,25 @@
 import React from 'react';
 
-const AddMovieForm = ({
+function AddMovieForm({
   addTitle,
   onAddChange,
-  onAddSubmit
-}) => (
-  <form
-    className="addmovie-form"
-    onSubmit={onAddSubmit}>
-  <input
-    id="addmovie-text"
-    type="text"
-    value={addTitle} placeholder="Add movie title here"
-    onChange={(e) => onAddChange(e.target.value)}></input>
-  <button type="submit" id="addmovie-button">➕</button>
-  </form>
-);
-
+  onAddSubmit,
+}) {
+  return (
+    <form
+      className="addmovie-form"
+      onSubmit={onAddSubmit}
+    >
+      <input
+        id="addmovie-text"
+        type="text"
+        value={addTitle}
+        placeholder="Add movie title here"
+        onChange={(e) => onAddChange(e.target.value)}
+      />
+      <button type="submit" id="addmovie-button">➕</button>
+    </form>
+  );
+}
 
 export default AddMovieForm;

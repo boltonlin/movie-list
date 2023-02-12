@@ -2,33 +2,29 @@ const axios = require('axios');
 
 const Parse = {
 
-  server: `http://localhost:3000/api/movies`,
+  server: 'http://localhost:3000/api/movies',
 
-  create: function (title) {
-    return axios.post(Parse.server, {'title': title});
+  create(title) {
+    return axios.post(Parse.server, { title });
   },
 
-  getAll: function () {
+  getAll() {
     return axios.get(Parse.server)
-      .then((response) => {
-        return response.data;
-      });
+      .then((response) => response.data);
   },
 
-  getOne: function (title) {
-    return axios.get(Parse.server, {params: {title: title}})
-      .then((response) => {
-        return response.data;
-      });
+  getOne(title) {
+    return axios.get(Parse.server, { params: { title } })
+      .then((response) => response.data);
   },
 
-  update: function (targetTitle, changes) {
+  update(targetTitle, changes) {
     return axios.patch(Parse.server, {
-      'target': targetTitle,
-      'changes': changes
+      target: targetTitle,
+      changes,
     });
   },
 
-}
+};
 
 module.exports = Parse;

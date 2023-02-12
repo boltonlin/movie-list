@@ -1,8 +1,8 @@
-const Movie = require('../db').Movie;
+const { Movie } = require('../db');
 
 exports.movies = {
 
-  get: function (req, res) {
+  get(req, res) {
     if (!Object.keys(req.query).length) {
       Movie.findAll()
         .then((movies) => {
@@ -14,7 +14,7 @@ exports.movies = {
         });
     } else {
       const { title } = req.query;
-      Movie.findOne({ where: { 'title': title } })
+      Movie.findOne({ where: { title } })
         .then((movie) => {
           if (movie) {
             res.status(200).send(movie);
@@ -28,23 +28,23 @@ exports.movies = {
     }
   },
 
-  create: function (req, res) {
+  create(req, res) {
     const { title } = req.body;
-    Movie.create( { 'title': title } )
+    Movie.create({ title })
       .then(() => {
-        res.status(201).send(`Inserted ${title} into db.`)
+        res.status(201).send(`Inserted ${title} into db.`);
       })
       .catch((err) => {
         res.status(400).send(err);
       });
   },
 
-  update: function (req, res) {
+  update(req, res) {
     const title = req.body.target;
     Movie.update(req.body.changes, {
       where: {
-        'title': title
-      }
+        title,
+      },
     }).then(() => {
       res.status(201).send(`Updated ${title} by ${JSON.stringify(req.body.changes)}`);
     }).catch((err) => {
@@ -52,4 +52,4 @@ exports.movies = {
     });
   },
 
-}
+};

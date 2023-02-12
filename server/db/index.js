@@ -1,17 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
+
 const orm = new Sequelize('movielist', 'root', '', {
-  dialect: 'mysql'
+  dialect: 'mysql',
 });
 
-var Movie = orm.define('Movie', {
+const Movie = orm.define('Movie', {
   title: {
     type: DataTypes.STRING,
-    unique: true
+    unique: true,
   },
   watched: {
     type: DataTypes.BOOLEAN,
     defaultValue: 0,
-  }
+  },
 });
 
 Movie.sync();
